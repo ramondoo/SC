@@ -56,7 +56,7 @@ point lightAmbient = {0.4f,0.4f,0.4f};
 point lightDiffuse = {1.0f,0.9f,1.0f};
 point light = {1.0f,0.5f,1.0f};
 
-FILE *file;
+extern FILE *file;
 
 __inline static void glColor3fv(const GLfloat *v) {
 	glColor4f(v[0], v[1], v[2], 1.0f);
@@ -107,7 +107,7 @@ void calc_coul(int nb, point* r, point* amb, point* dif, point* lig, point* norm
 
 
 // p est un point de la trajectoire
-// v est la tangente à la trajectoire en ce point
+// v est la tangente ?la trajectoire en ce point
 void create_poteau(point* p1, point* p2, point* v, point* buf, point* bufc){
 	point a,b;
 	int i;

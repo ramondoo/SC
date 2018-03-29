@@ -22,7 +22,7 @@
 #include <windows.h>
 #include <tchar.h>
 #include <mmsystem.h>
-#define snprintf _snprintf
+//#define snprintf _snprintf
 #endif
 
 #include "gl.h"
@@ -107,7 +107,7 @@ point *prail1n, *prail2n, *pcyln; // tableau des normales
 point *pliens;
 point *pnliens;
 point *pliensn;
-point *ptang;             // tangente à la trajectoire en chacun des points
+point *ptang;             // tangente ?la trajectoire en chacun des points
 float *pnorme;            // longueurs des segments
 float rayonCyl = 0.02f;
 float rayonLien = 0.01f;
@@ -270,7 +270,7 @@ point *pvitesse;
 point *paccel;
 
 
-/* Calcul l'inverse du rayon de courbure de la courbe de Bézier i (projeté sur le plan xy) à l'abscisse t */
+/* Calcul l'inverse du rayon de courbure de la courbe de Bézier i (projet?sur le plan xy) ?l'abscisse t */
 float rayonDeCourbure(int i, float t)
 {
 	point v,g; /* vitesse et accélération */
@@ -295,9 +295,9 @@ float rayonDeCourbure(int i, float t)
 	return (v.x * g.y - v.y * g.x) / norme2(&v) / norme(&v);
 	/* autre façon de calculer l'inverse du rayon de courbure:
 	 * projeter le vecteur accélération sur un vecteur unitaire orthoganal
-	 * à la trajectoire (à l'aide d'un produit scalaire). Diviser le résultat
-	 * par le carré de la longueur du vecteur vitesse.
-	 * 1 / R = prod_scal(&n,&g) / norme2(&v); où n est orthogonale à v
+	 * ?la trajectoire (?l'aide d'un produit scalaire). Diviser le résultat
+	 * par le carr?de la longueur du vecteur vitesse.
+	 * 1 / R = prod_scal(&n,&g) / norme2(&v); o?n est orthogonale ?v
 	 */
 }
 
@@ -309,7 +309,7 @@ void InitCurve(float longueur_seg){
 	float t,d;
 	float *pnbsegment;
 
-	/* initialise pcontrole à partir de ppointcontrole */
+	/* initialise pcontrole ?partir de ppointcontrole */
 	pcontrole = (point*) malloc((3*nbPointControle+1)*sizeof(point));
 	for(i=0 ; i<nbPointControle ; i++) {
 		pcontrole[3*i] = ppointcontrole[2*i];
@@ -1089,7 +1089,7 @@ GLvoid DrawGLScene(GLfloat roll_angle, GLfloat pitch_angle)
 	static float abscisse = 0.0f;
 	static float oldz;
 	static float vitesse = 0.0f;
-	static int flag = 1; /* passe à zéro quand il n'y a plus de montée */
+	static int flag = 1; /* passe ?zéro quand il n'y a plus de montée */
 	static int flag_firstcall = 1;
 	static int flag_stopping = 0;
 	static unsigned long time, oldtime;

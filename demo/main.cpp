@@ -18,7 +18,7 @@
  */
 
 //#include "ug.h"
-#include <SDL.h>
+#include "mysdl.h"
 #include "gl.h"
 #include "vgl.h"
 //#include "ug.h"
@@ -26,6 +26,8 @@
 //#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <cxcore.hpp>
+#include <cv.hpp>
 
 #include "roller.h"
 
@@ -38,7 +40,7 @@
 
 /* The number of our GLUT window */
 int window;
-SDL_Surface *sdlSurface;
+MySDL_Surface *sdlSurface;
 VGL_Surface glSurface;
 
 int width = WINDOW_WIDTH;
@@ -56,7 +58,26 @@ int intro = 0;
 void display(void)
 {
 	DrawRoller();
+
+
+
 	vglSwapBuffers(sdlSurface, glSurface);
+
+	cv::Mat img(sdlSurface->h, sdlSurface->w, CV_8UC4, sdlSurface->pixels, sdlSurface->pitch);
+	cv::Mat v[4];
+
+	cv::split(img, v);
+
+	cv::Mat img2;
+	cv::merge(v, 3, img2);
+
+
+	cv::namedWindow("T");
+	cv::imshow("T", img2);
+	cv::waitKey(10);
+
+	
+
 }
 
 
@@ -265,26 +286,43 @@ void init() {
 
 int main(int argc, char* argv[]) 
 {
-	SDL_Event event;
+	//SDL_Event event;
+	//SDL_Init(SDL_INIT_VIDEO);
+	//atexit(SDL_Quit);
 
-	SDL_Init(SDL_INIT_VIDEO);
-	atexit(SDL_Quit);
+
 	vglInitialize();
 
-	sdlSurface = SDL_SetVideoMode(width, height, 0, SDL_ANYFORMAT);
+	//sdlSurface = SDL_SetVideoMode(width, height, 0, SDL_ANYFORMAT);
+
+	union {
+		GLubyte rgba[4];
+		GLuint mask;
+	} translate;
+	GLuint redMask, greenMask, blueMask, alphaMask;
+	translate.mask = 0, translate.rgba[0] = 0xffu, redMask = translate.mask;
+	translate.mask = 0, translate.rgba[1] = 0xffu, greenMask = translate.mask;
+	translate.mask = 0, translate.rgba[2] = 0xffu, blueMask = translate.mask;
+	translate.mask = 0, translate.rgba[3] = 0 /*xffu */, alphaMask = translate.mask;
+
+	sdlSurface = MySDL_CreateRGBSurface(width, height, 32,
+		redMask, greenMask, blueMask, alphaMask);
+	
 	glSurface = vglCreateSurface(width, height, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8_REV, 0);
+
+
 	vglMakeCurrent(glSurface, glSurface);
 
 	init();
 	resize(width, height);
 	display();
 
-	for (;;) {
-		SDL_PollEvent(&event);
-
-		if (event.type == SDL_QUIT) {
-			break;
-		}
+	for (;;) 
+	{
+		//SDL_PollEvent(&event);
+		//if (event.type == SDL_QUIT) {
+		//	break;
+		//}
 
 		display();
 	}

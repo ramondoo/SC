@@ -14,7 +14,7 @@
 #define VPMT_VGL_H
 
 #include "gl.h"
-#include <SDL.h>
+#include "mysdl.h"
 
 typedef void *VGL_Surface;
 
@@ -30,7 +30,7 @@ GLAPI VGL_Surface APIENTRY vglGetWriteSurface(void);
 /* SDL bindings */
 GLAPI VGL_Surface APIENTRY vglCreateSurface(GLsizei width, GLsizei height, GLenum format, GLenum type,
 											GLenum depthStencilType);
-GLAPI GLboolean APIENTRY vglSwapBuffers(SDL_Surface * display, VGL_Surface surface);
+GLAPI GLboolean APIENTRY vglSwapBuffers(MySDL_Surface * display, VGL_Surface surface);
 
 
 

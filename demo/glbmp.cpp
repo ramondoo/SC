@@ -647,7 +647,7 @@ int glBmpLoadTGA24(glBmpImage *img, FILE *tgaFile)
 		return 0;
 	}
 
-	img->pData = malloc(img->width*img->height*sizeof(GLRGBQUAD));
+	img->pData = (GLRGBQUAD*)malloc(img->width*img->height*sizeof(GLRGBQUAD));
 	if (!img->pData)
 	{
 		free(image);
@@ -666,7 +666,7 @@ int glBmpMemLoadTGA24(glBmpImage *img, char *filePtr)
 
 	image = (RGBTRIPLE*)filePtr;
 	filePtr += img->imageSize;
-	img->pData = malloc(img->width*img->height*sizeof(GLRGBQUAD));
+	img->pData = (GLRGBQUAD*)malloc(img->width*img->height*sizeof(GLRGBQUAD));
 	if (!img->pData) return 0;
 	glBmpExpandTo32(img, image, 0, 1);
 	return 1;
@@ -720,7 +720,7 @@ int glBmpLoadCompressedTGA24(glBmpImage *img, FILE *tgaFile)
 		}
 	}
 
-	img->pData = malloc(img->width*img->height*sizeof(GLRGBQUAD));
+	img->pData = (GLRGBQUAD*)malloc(img->width*img->height*sizeof(GLRGBQUAD));
 	if (!img->pData)
 	{
 		free(image);
@@ -765,7 +765,7 @@ int glBmpMemLoadCompressedTGA24(glBmpImage *img, char *filePtr)
 		}
 	}
 
-	img->pData = malloc(img->width*img->height*sizeof(GLRGBQUAD));
+	img->pData = (GLRGBQUAD*)malloc(img->width*img->height*sizeof(GLRGBQUAD));
 	if (!img->pData)
 	{
 		free(image);
@@ -895,7 +895,7 @@ int glBmpSaveScreen(glBmpImage* img)
 
 	glBmpClearMem(img);
 
-	img->pData = malloc(img->width*img->height*sizeof(GLRGBQUAD));
+	img->pData = (GLRGBQUAD*)malloc(img->width*img->height*sizeof(GLRGBQUAD));
 
 	if (!img->pData)
 		return 0;
@@ -1440,7 +1440,7 @@ void glBmpGenTexture(glBmpImage* img)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img->width, img->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img->pData);
 }
 
-gluBuild2DMipmaps(GLenum target, GLint internalFormat, 
+void gluBuild2DMipmaps(GLenum target, GLint internalFormat, 
 			     GLsizei width, GLsizei height, 
 			     GLenum format, GLenum type, 
 			     GLubyte *texture) {

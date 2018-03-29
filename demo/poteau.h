@@ -20,7 +20,7 @@
 #ifndef _POTEAU_HEADER
 #define _POTEAU_HEADER
 
-int poteau_init();
+int poteau_init(point *pline, int nbLine, point* ptang);
 void poteau_draw();
 void drawtree();
 

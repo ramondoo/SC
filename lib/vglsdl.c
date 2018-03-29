@@ -15,12 +15,17 @@
 #include "context.h"
 #include "exec.h"
 #include "GL/vgl.h"
-#include <SDL.h>
+#include "mysdl.h"
+
+
+
 
 typedef struct SdlSurfaceWrapper {
 	VPMT_Surface surface;
-	SDL_Surface *sdlSurface;
+	//SDL_Surface *sdlSurface;
+	MySDL_Surface *sdlSurface;
 } SdlSurfaceWrapper;
+
 
 static void AddrefSurface(struct VPMT_Surface *surface)
 {
@@ -33,9 +38,11 @@ static void ReleaseSurface(struct VPMT_Surface *surface)
 {
 	SdlSurfaceWrapper *wrapper = (SdlSurfaceWrapper *) surface;
 
-	if (--wrapper->surface.refcount == 0) {
-		if (wrapper->sdlSurface) {
-			SDL_FreeSurface(wrapper->sdlSurface);
+	if (--wrapper->surface.refcount == 0) 
+	{
+		if (wrapper->sdlSurface)
+		{
+			MySDL_FreeSurface(wrapper->sdlSurface);
 		}
 
 		if (wrapper->surface.depthStencilBuffer) {
@@ -51,8 +58,9 @@ static void LockSurface(VPMT_Context * context, struct VPMT_Surface *surface)
 	SdlSurfaceWrapper *wrapper = (SdlSurfaceWrapper *) surface;
 	VPMT_Rect surfaceRect;
 
-	if (SDL_MUSTLOCK(wrapper->sdlSurface) && !wrapper->sdlSurface->locked) {
-		SDL_LockSurface(wrapper->sdlSurface);
+	if (MySDL_MUSTLOCK(wrapper->sdlSurface) && !wrapper->sdlSurface->locked)
+	{
+		MySDL_LockSurface(wrapper->sdlSurface);
 	}
 
 	wrapper->surface.image.data =
@@ -73,8 +81,9 @@ static void UnlockSurface(VPMT_Context * context, struct VPMT_Surface *surface)
 {
 	SdlSurfaceWrapper *wrapper = (SdlSurfaceWrapper *) surface;
 
-	if (SDL_MUSTLOCK(wrapper->sdlSurface) && wrapper->sdlSurface->locked) {
-		SDL_UnlockSurface(wrapper->sdlSurface);
+	if (MySDL_MUSTLOCK(wrapper->sdlSurface) && wrapper->sdlSurface->locked) 
+	{
+		MySDL_UnlockSurface(wrapper->sdlSurface);
 	}
 
 	wrapper->surface.image.data = NULL;
@@ -126,10 +135,11 @@ vglCreateSurface(GLsizei width, GLsizei height, GLenum format, GLenum type, GLen
 		wrapper->surface.depthStencilBuffer = NULL;
 
 		wrapper->sdlSurface =
-			SDL_CreateRGBSurface(0, width, height, pixelFormat->bits,
+			MySDL_CreateRGBSurface(width, height, pixelFormat->bits,
 								 redMask, greenMask, blueMask, alphaMask);
 
-		if (!wrapper->sdlSurface) {
+		if (!wrapper->sdlSurface) 
+		{
 			goto error;
 		}
 
@@ -159,7 +169,7 @@ vglCreateSurface(GLsizei width, GLsizei height, GLenum format, GLenum type, GLen
   error:
 	if (wrapper) {
 		if (wrapper->sdlSurface) {
-			SDL_FreeSurface(wrapper->sdlSurface);
+			MySDL_FreeSurface(wrapper->sdlSurface);
 		}
 
 		if (wrapper->surface.depthStencilBuffer) {
@@ -172,15 +182,21 @@ vglCreateSurface(GLsizei width, GLsizei height, GLenum format, GLenum type, GLen
 	return NULL;
 }
 
-GLAPI GLboolean APIENTRY vglSwapBuffers(SDL_Surface * display, VGL_Surface surface)
+GLAPI GLboolean APIENTRY vglSwapBuffers(MySDL_Surface * display, VGL_Surface surface)
 {
 	SdlSurfaceWrapper *wrapper = (SdlSurfaceWrapper *) surface;
 
-	if (!SDL_BlitSurface(wrapper->sdlSurface, NULL, display, NULL) && !SDL_Flip(display)) {
-		return GL_TRUE;
-	} else {
-		return GL_FALSE;
-	}
+	//if (!SDL_BlitSurface(wrapper->sdlSurface, NULL, display, NULL)/* && !SDL_Flip(display)*/) {
+	//	return GL_TRUE;
+	//} else {
+	//	return GL_FALSE;
+	//}
+
+
+	//memcpy(display, wrapper->sdlSurface, sizeof(MySDL_Surface));
+	memcpy(display->pixels, wrapper->sdlSurface->pixels, display->pitch*display->h);
+
+	return GL_TRUE;
 }
 
 /* $Id: vglsdl.c 74 2008-11-23 07:25:12Z hmwill $ */

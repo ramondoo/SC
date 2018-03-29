@@ -48,7 +48,11 @@ extern "C" {
 #define APIENTRY
 #endif
 #ifndef GLAPI
+#ifdef __cplusplus
+#define GLAPI extern "C" 
+#else
 #define GLAPI extern
+#endif
 #endif
 
 typedef unsigned int GLenum;
