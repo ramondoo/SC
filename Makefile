@@ -45,7 +45,7 @@ SRCEXTS := .c .cpp
 
 
 #头文件目录
-INCDIRS += $(SRCDIR) ./include
+INCDIRS += $(SRCDIR) $(SRCDIRS) ./include ./include/GL 
 
 
 

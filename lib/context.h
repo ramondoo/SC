@@ -20,6 +20,7 @@
 #include "tex.h"
 #include "texunit.h"
 
+struct VPMT_FrameBuffer;
 typedef struct VPMT_Context VPMT_Context;
 typedef struct VPMT_Array VPMT_Array;
 
