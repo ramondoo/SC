@@ -11,10 +11,10 @@
 */
 
 #include "common.h"
-#include "GL/gl.h"
+#include <gl.h>
 #include "context.h"
 #include "exec.h"
-#include "GL/vgl.h"
+#include <vgl.h>
 
 
 GLAPI GLboolean APIENTRY vglInitialize(void)

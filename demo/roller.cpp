@@ -18,6 +18,7 @@
  */
 
 /* under windows, gl.h needs windows.h to be included */
+
 #ifdef _WIN32
 #include <windows.h>
 #include <tchar.h>
@@ -30,6 +31,8 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 
 #ifndef M_PI  /* some math header doesn't define it */
 #define M_PI 3.14159265359f
@@ -51,6 +54,16 @@
 unsigned long timeGetTime()
 {
 	return GetTickCount();
+}
+#endif
+
+#ifdef LINUX
+unsigned long timeGetTime()
+{
+	struct timeval tv;
+	struct timezone tz;
+	gettimeofday(&tv, &tz);
+	return (long long)tv.tv_sec * 1000 + tv.tv_usec/1000;
 }
 #endif
 

@@ -680,12 +680,12 @@ typedef struct Edge {
 
 static VPMT_INLINE GLint FixedDiv(GLint a, GLint b)
 {
-	return (GLint) (((__int64) a << FRAC_BITS) / b);
+	return (GLint) (((long long) a << FRAC_BITS) / b);
 }
 
 static VPMT_INLINE GLint FixedMul(GLint a, GLint b)
 {
-	return (GLint) (((__int64) a * b) >> FRAC_BITS);
+	return (GLint) (((long long) a * b) >> FRAC_BITS);
 }
 
 static void RasterTriangleScanLine(VPMT_Context * context, Interpolation * interpolation,

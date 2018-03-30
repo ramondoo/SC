@@ -1,7 +1,7 @@
 #ifndef _MY_SDL_H
 #define _MY_SDL_H
 
-#include "GL\gl.h"
+#include <gl.h>
 
 typedef struct _SDL_Rect {
 	signed short x, y;
