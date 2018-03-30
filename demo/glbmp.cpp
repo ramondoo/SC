@@ -1394,8 +1394,8 @@ int glBmpFlipHorz(glBmpImage* img)
 
 	for (y = 0; y < img->height; y++)
 	{
-		front = (GLRGBQUAD*)((int)img->pData + line*y);
-		back = (GLRGBQUAD*)((int)img->pData + (line*y) + (line-4));
+		front = (GLRGBQUAD*)((char*)img->pData + line*y);
+		back = (GLRGBQUAD*)((char*)img->pData + (line*y) + (line-4));
 
 		for (x = 0; x < (img->width >> 1)-1; x++)
 		{

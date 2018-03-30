@@ -64,7 +64,7 @@ CPPFLAGS +=
 
 CPPFLAGS += -Wall $(addprefix -I, $(INCDIRS)) 
 
-CPPFLAGS += 
+CPPFLAGS += -DLINUX
 
 #根据SOURCES和SRCDIRS生成待编译源代码列表及目标文件列表
 SRCS := $(SOURCES) $(foreach d, $(SRCDIRS), $(wildcard $(addprefix $(d)/*, $(SRCEXTS))))

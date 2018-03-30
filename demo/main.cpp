@@ -24,10 +24,17 @@
 //#include "ug.h"
 
 //#include <stdio.h>
+/*
 #include <stdlib.h>
 #include <string.h>
 #include <cxcore.hpp>
 #include <cv.hpp>
+*/
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
 
 #include "roller.h"
 
@@ -63,6 +70,7 @@ void display(void)
 
 	vglSwapBuffers(sdlSurface, glSurface);
 
+	/*
 	cv::Mat img(sdlSurface->h, sdlSurface->w, CV_8UC4, sdlSurface->pixels, sdlSurface->pitch);
 	cv::Mat v[4];
 
@@ -76,7 +84,12 @@ void display(void)
 	cv::imshow("T", img2);
 	cv::waitKey(10);
 
-	
+	*/
+
+	FILE* fp = fopen("./test.bin", "wb");
+	fwrite(sdlSurface->pixels, sdlSurface->pitch, sdlSurface->h, fp);
+
+	fclose(fp);
 
 }
 
