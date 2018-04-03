@@ -16,7 +16,7 @@
 #include "mysdl.h"
 #include "gl.h"
 #include "vgl.h"
-#include "util.h"
+#include "utils.h"
 
 #ifndef M_PI
 #define M_PI       3.14159265358979323846   // pi
@@ -239,17 +239,17 @@ void display(void)
 	printf("time=%f ms\n", (et - st)*1000.0 / cv::getTickFrequency());
 
 
-	cv::Mat img(sdlSurface->h, sdlSurface->w, CV_8UC4, sdlSurface->pixels, sdlSurface->pitch);
-	cv::Mat v[4];
-	cv::split(img, v);
+	//cv::Mat img(sdlSurface->h, sdlSurface->w, CV_8UC4, sdlSurface->pixels, sdlSurface->pitch);
+	//cv::Mat v[4];
+	//cv::split(img, v);
 
-	cv::swap(v[0], v[2]);
-	cv::Mat img2;
-	cv::merge(v, 3, img2);
+	//cv::swap(v[0], v[2]);
+	//cv::Mat img2;
+	//cv::merge(v, 3, img2);
 
-	cv::namedWindow("T");
-	cv::imshow("T", img2);
-	cv::waitKey(10);
+	//cv::namedWindow("T");
+	//cv::imshow("T", img2);
+	//cv::waitKey(10);
 }
 
 
